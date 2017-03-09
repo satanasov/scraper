@@ -6,7 +6,6 @@ import kink
 import io
 import urllib.request
 import wx.lib.scrolledpanel
-#from xml.etree import ElementTree as et
 from lxml import etree as et
 import xml.dom.minidom as minidom
 from sys import platform as _platform
@@ -17,7 +16,7 @@ detectedIds = []
 print(glob.glob(os.path.dirname(__file__)))
 cache_dir = glob.glob(os.path.dirname(__file__))[0]
 
-cache_dir = cache_dir + '/cache'
+cache_dir += '/cache'
 
 if not os.path.isdir(cache_dir):
     os.makedirs(cache_dir)
@@ -31,9 +30,9 @@ class OptionsDialog(wx.Dialog):
         """Constructor"""
         wx.Dialog.__init__(self, None, title="Options")
 
-        radio1 = wx.RadioButton( self, -1, " Radio1 ", style = wx.RB_GROUP )
-        radio2 = wx.RadioButton( self, -1, " Radio2 " )
-        radio3 = wx.RadioButton( self, -1, " Radio3 " )
+        radio1 = wx.RadioButton(self, -1, " Radio1 ", style=wx.RB_GROUP)
+        radio2 = wx.RadioButton(self, -1, " Radio2 ")
+        radio3 = wx.RadioButton(self, -1, " Radio3 ")
 
         sizer = wx.BoxSizer(wx.VERTICAL)
         sizer.Add(radio1, 0, wx.ALL, 5)
@@ -45,6 +44,7 @@ class OptionsDialog(wx.Dialog):
             sizer.Add(chk, 0, wx.ALL, 5)
         self.SetSizer(sizer)
 
+
 class SearchDlg(wx.Dialog):
     def __init__(self):
         wx.Dialog.__init__(self, None, title="Search")
@@ -52,11 +52,10 @@ class SearchDlg(wx.Dialog):
         self.sizer = wx.BoxSizer(wx.VERTICAL)
         self.selected = ''
 
-
         self.pos = 0
         for detectedId in detectedIds:
             if self.pos == 0:
-                self.radio = wx.RadioButton(self, -1, detectedId, style = wx.RB_GROUP)
+                self.radio = wx.RadioButton(self, -1, detectedId, style=wx.RB_GROUP)
                 self.radio.Bind(wx.EVT_RADIOBUTTON, self.onSelect)
                 self.selected = detectedId
             else:
@@ -128,10 +127,11 @@ class SearchDlg(wx.Dialog):
             self.searchResultScroll.Layout()
             self.searchResultScroll.SetupScrolling()
             if col < 1:
-                col = col + 1
+                col += 1
             else:
                 col = 0
-                row = row + 5
+                row += 5
+
     def onSelect(self, event):
         button = event.GetEventObject()
         self.selected = button.GetLabel()
@@ -433,10 +433,10 @@ class MainWindow(wx.Frame):
             self.listFanartlist.Layout()
             self.listFanartlist.SetupScrolling()
             if col < 3:
-                col = col + 1
+                col += 1
             else:
                 col = 0
-                row = row + 1
+                row += 1
 
         for genre in self.output['genres']:
             self.listGenres.AppendText(genre + '\n')
@@ -569,10 +569,10 @@ class MainWindow(wx.Frame):
                     self.listFanartlist.SetupScrolling()
 
                     if col < 3:
-                        col = col + 1
+                        col += 1
                     else:
                         col = 0
-                        row = row + 1
+                        row += 1
         if root.find('id').text:
             self.movieId.SetLabel(root.find('id').text)
             self.scrapeId = root.find('id').text

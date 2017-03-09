@@ -40,6 +40,7 @@ chanels = {
 
 }
 
+
 def search(term):
     print('https://www.kink.com/search?q=' + term)
     page = requests.get('https://www.kink.com/search?q=' + term)
@@ -109,6 +110,7 @@ def scrape_movie(target):
 
     return output
 
+
 def detectId(string):
     match = re.search(r'\d{4}-\d{2}-\d{2}', string)
     if match:
@@ -133,6 +135,7 @@ def detectId(string):
             if detecetedIds.count(string_part) == 0:
                 detecetedIds.append(string_part)
     return detecetedIds
+
 
 def generateSearchString(string):
     match = re.search(r'\d{4}-\d{2}-\d{2}', string)
@@ -161,6 +164,7 @@ def generateSearchString(string):
                 detecetedIds.append(string_part)
     output = '+'.join(detecetedIds)
     return output
+
 
 def month_converter(month):
     month = month.strip()[:3].lower()
