@@ -10,6 +10,28 @@ from lxml import etree as et
 import xml.dom.minidom as minidom
 from sys import platform as _platform
 
+'''
+    Here we define base string format
+    Supported:
+    {SET}
+    {S_E_T}
+    {S.E.T}
+    {S-E-T}
+    {SET-}
+    {DATE}
+    {D.A.T.E}
+    {D_A_T_E}
+    {D A T E}
+    {DATE-}
+    {NAME}
+    {N_A_M_E}
+    {N.A.M.E}
+    {N-A-M-E}
+    {NAME-}
+    {ID}
+'''
+base_string = '{SET-} {DATE} {NAME} ({ID})'
+
 selectedItem = ''
 detectedIds = []
 
@@ -207,6 +229,10 @@ class MainWindow(wx.Frame):
         self.scrapeBtn = wx.Button(self.mainInfoScroll, label="Scrape")
         self.scrapeSizer.Add(self.scrapeBtn, flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL,
                        border=5)
+        self.renameBtn = wx.Button(self.mainInfoScroll, label="Rename")
+        self.scrapeSizer.Add(self.renameBtn, flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL,
+                       border=5)
+        self.renameBtn.Disable()
         self.sizer.Add(self.scrapeSizer, pos=(2, 0), span=(0, 2), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL,
                        border=5)
         self.labelMovieName = wx.StaticText(self.mainInfoScroll, label="Movie Name")
@@ -312,6 +338,7 @@ class MainWindow(wx.Frame):
         self.scrapeBtn.Bind(wx.EVT_BUTTON, self.onScrape)
         self.btnSaveNFO.Bind(wx.EVT_BUTTON, self.saveNFO)
         self.searchBtn.Bind(wx.EVT_BUTTON, self.onOpenSearch)
+        self.renameBtn.Bind(wx.EVT_BUTTON, self.doRename)
 
     def onOpenDirectory(self, e):
         """"""
@@ -333,8 +360,8 @@ class MainWindow(wx.Frame):
         self.dirList.Bind(wx.EVT_LIST_ITEM_SELECTED, self.ListOnClick, self.dirList)
 
     def ListOnClick(self, event):
-        global selectedItem, detectedIds
         #clear up what we have
+        self.renameBtn.Disable()
         self.scrapeId = ''
         self.movieId.SetLabel('')
         self.movieName.SetLabel('')
@@ -442,6 +469,8 @@ class MainWindow(wx.Frame):
             self.listGenres.AppendText(genre + '\n')
         for actor in self.output['actors_names']:
             self.listActors.AppendText(actor + '\n')
+        if self.generateBaseString() != self.selectedFolder[0] + '/' + self.selectedItem:
+            self.renameBtn.Enable()
 
     def saveNFO(self, event):
         root = et.Element('movie')
@@ -475,12 +504,15 @@ class MainWindow(wx.Frame):
         releasedate.text = self.releaseDate.GetValue()
         studio = et.SubElement(root, 'studio')
         studio.text = self.Studio.GetValue()
+        fanart = et.SubElement(root, 'fanart')
         thumbs = self.listThumbs.GetValue()
         thumbs = thumbs.split('\n')
         for thumb in thumbs:
             if thumb:
                 thumb_tag = et.SubElement(root, 'thumb')
                 thumb_tag.text = thumb
+                fanart_tag = et.SubElement(fanart, 'thumb')
+                fanart_tag.text = thumb
 
         movieid = et.SubElement(root, 'id')
         movieid.text = self.movieId.GetValue()
@@ -582,6 +614,8 @@ class MainWindow(wx.Frame):
         if root.findall('actor'):
             for actor in root.findall('actor'):
                 self.listActors.AppendText(actor.find('name').text + '\n')
+        if self.generateBaseString() != self.selectedFolder[0] + '/' + self.selectedItem:
+            self.renameBtn.Enable()
 
 
     # ----------------------------------------------------------------------
@@ -615,6 +649,75 @@ class MainWindow(wx.Frame):
         os.rename(self.selectedFolder[0] + "/" + self.selectedItem, path + "/" + selectedItem)
 
         self.updateDisplay(self.selectedFolder[0])
+
+    def doRename(self, event):
+        '''
+        paths = glob.glob(folder_path + "/*")
+        self.selectedFolder = glob.glob(folder_path)
+        self.dirList.DeleteAllItems()
+        for index, path in enumerate(paths):
+            self.dirList.InsertItem(index, os.path.basename(path))
+        self.dirList.Bind(wx.EVT_LIST_ITEM_SELECTED, self.ListOnClick, self.dirList)
+        Let's get folder content ... shall we?
+        '''
+        enum_path = glob.glob(self.selectedFolder[0] + "/" + self.selectedItem + "/*")
+        ext_path = glob.glob(self.selectedFolder[0] + '/' + self.selectedItem)
+        base = self.generateBaseString()
+        tgt_path = glob.glob(self.selectedFolder[0] + "/")
+        for index, path in enumerate(enum_path):
+            file = os.path.basename(path)
+            file_container = os.path.splitext(file)
+            if kink.extensions.count(file_container[1][1:]) or file_container[1] == '.nfo':
+                os.rename(path, ext_path[0] + '/' + base + file_container[1])
+        os.rename(ext_path[0], tgt_path[0] + base)
+        self.selectedItem = base
+        self.updateDisplay(self.selectedFolder[0])
+
+    def generateBaseString(self):
+        """
+            Here we define base string format
+            Supported:
+            {SET}
+            {S_E_T}
+            {S.E.T}
+            {S-E-T}
+            {SET-}
+            {DATE}
+            {D.A.T.E}
+            {D_A_T_E}
+            {DATE-}
+            {NAME}
+            {N_A_M_E}
+            {N.A.M.E}
+            {N-A-M-E}
+            {NAME-}
+            {ID}
+        """
+        ''' Let's build strings '''
+        movieSet = self.movieSet.GetValue()
+        releaseDate = self.releaseDate.GetValue()
+        movieName = self.movieName.GetValue()
+        id = self.movieId.GetValue()
+
+        string = base_string.replace('{SET}', movieSet)
+        string = string.replace('{S_E_T}', movieSet.replace(' ', '_'))
+        string = string.replace('{S.E.T}', movieSet.replace(' ', '.'))
+        string = string.replace('{S-E-T}', movieSet.replace(' ', '-'))
+        string = string.replace('{SET-}', movieSet.replace(' ', ''))
+        string = string.replace('{DATE}', releaseDate)
+        string = string.replace('{D_A_T_E}', releaseDate.replace(' ', '_'))
+        string = string.replace('{D.A.T.E}', releaseDate.replace(' ', '.'))
+        string = string.replace('{D-A-T-E}', releaseDate.replace(' ', '-'))
+        string = string.replace('{DATE-}', releaseDate.replace(' ', ''))
+        string = string.replace('{NAME}', movieName)
+        string = string.replace('{N_A_M_E}', movieName.replace(' ', '_'))
+        string = string.replace('{N.A.M.E}', movieName.replace(' ', '.'))
+        string = string.replace('{N-A-M-E}', movieName.replace(' ', '-'))
+        string = string.replace('{NAME-}', movieName.replace(' ', ''))
+        string = string.replace('{ID}', id)
+
+        return string
+
 
 app = wx.App(False)
 frame = MainWindow()
