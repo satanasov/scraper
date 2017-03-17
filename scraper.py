@@ -11,28 +11,6 @@ import xml.dom.minidom as minidom
 from sys import platform as _platform
 import config
 
-'''
-    Here we define base string format
-    Supported:
-    {SET}
-    {S_E_T}
-    {S.E.T}
-    {S-E-T}
-    {SET-}
-    {DATE}
-    {D.A.T.E}
-    {D_A_T_E}
-    {D A T E}
-    {DATE-}
-    {NAME}
-    {N_A_M_E}
-    {N.A.M.E}
-    {N-A-M-E}
-    {NAME-}
-    {ID}
-'''
-
-
 selectedItem = ''
 detectedIds = []
 
@@ -52,21 +30,50 @@ class OptionsDialog(wx.Dialog):
     def __init__(self):
         """Constructor"""
         wx.Dialog.__init__(self, None, title="Options")
-
-        radio1 = wx.RadioButton(self, -1, " Radio1 ", style=wx.RB_GROUP)
-        radio2 = wx.RadioButton(self, -1, " Radio2 ")
-        radio3 = wx.RadioButton(self, -1, " Radio3 ")
-
         sizer = wx.BoxSizer(wx.VERTICAL)
-        sizer.Add(radio1, 0, wx.ALL, 5)
-        sizer.Add(radio2, 0, wx.ALL, 5)
-        sizer.Add(radio3, 0, wx.ALL, 5)
 
-        for i in range(3):
-            chk = wx.CheckBox(self, label="Checkbox #%s" % (i+1))
-            sizer.Add(chk, 0, wx.ALL, 5)
+        self.base_stringStr = wx.StaticText(self, label="Base String")
+        sizer.Add(self.base_stringStr, 0, wx.ALL, 5)
+        self.base_string = wx.TextCtrl(self, size=(300, -1))
+        sizer.Add(self.base_string, 0, wx.ALL, 5)
+        self.base_string.SetLabel(config.config['ALL']['base_string'])
+        '''
+            Here we define base string format
+            Supported:
+            {SET}
+            {S_E_T}
+            {S.E.T}
+            {S-E-T}
+            {SET-}
+            {DATE}
+            {D.A.T.E}
+            {D_A_T_E}
+            {D A T E}
+            {DATE-}
+            {NAME}
+            {N_A_M_E}
+            {N.A.M.E}
+            {N-A-M-E}
+            {NAME-}
+            {ID}
+        '''
+        self.base_stringDesc = wx.StaticText(self, label="Supported:\n"
+                                                         "{SET}, {S_E_T}, {S.E.T}, {S-E-T}, {SET-}, {DATE}, {D.A.T.E}\n"
+                                                         "{D_A_T_E}, {D A T E}, {DATE-}, {NAME}, {N_A_M_E}, {N.A.M.E}\n"
+                                                         "{N-A-M-E}, {NAME-}, {ID}\n")
+        sizer.Add(self.base_stringDesc, 0, wx.ALL, 5)
+
+        self.btn_sizer = self.CreateStdDialogButtonSizer(wx.OK | wx.CANCEL)
+
+        sizer.Add(self.btn_sizer)
+
         self.SetSizer(sizer)
+        self.Bind(wx.EVT_BUTTON, self.OnOk, id=wx.ID_OK)
 
+    def OnOk(self, event):
+        config.config['ALL']['base_string'] = self.base_string.GetValue()
+        config.configWrite()
+        self.Destroy()
 
 class SearchDlg(wx.Dialog):
     def __init__(self):
