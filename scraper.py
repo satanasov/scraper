@@ -9,6 +9,7 @@ import wx.lib.scrolledpanel
 from lxml import etree as et
 import xml.dom.minidom as minidom
 from sys import platform as _platform
+import config
 
 '''
     Here we define base string format
@@ -30,7 +31,7 @@ from sys import platform as _platform
     {NAME-}
     {ID}
 '''
-base_string = '{SET-} {DATE} {NAME} ({ID})'
+
 
 selectedItem = ''
 detectedIds = []
@@ -699,7 +700,8 @@ class MainWindow(wx.Frame):
         movieName = self.movieName.GetValue()
         id = self.movieId.GetValue()
 
-        string = base_string.replace('{SET}', movieSet)
+        string = config.config['ALL']['base_string']
+        string = string.replace('{SET}', movieSet)
         string = string.replace('{S_E_T}', movieSet.replace(' ', '_'))
         string = string.replace('{S.E.T}', movieSet.replace(' ', '.'))
         string = string.replace('{S-E-T}', movieSet.replace(' ', '-'))
