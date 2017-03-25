@@ -234,6 +234,12 @@ class MainWindow(wx.Frame):
         self.searchBtn = wx.Button(self.mainInfoScroll, label="Search")
         self.sizer.Add(self.searchBtn, pos=(1, 2), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL,
                        border=5)
+        self.posterLabel = wx.StaticText(self.mainInfoScroll, label="Poster")
+        self.sizer.Add(self.posterLabel, pos=(2, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
+        self.posterGet = wx.Button(self.mainInfoScroll, label="Get Poster")
+        self.sizer.Add(self.posterGet, pos=(2, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL,
+                       border=5)
+        self.posterGet.Disable()
         self.laberNfoPresent = wx.StaticText(self.mainInfoScroll, label="NFO?")
         self.scrapeSizer.Add(self.laberNfoPresent, flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
         self.nfoPresent = wx.StaticText(self.mainInfoScroll, label="n/a")
@@ -245,98 +251,98 @@ class MainWindow(wx.Frame):
         self.scrapeSizer.Add(self.renameBtn, flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL,
                        border=5)
         self.renameBtn.Disable()
-        self.sizer.Add(self.scrapeSizer, pos=(2, 0), span=(0, 2), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL,
+        self.sizer.Add(self.scrapeSizer, pos=(3, 0), span=(0, 2), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL,
                        border=5)
         self.labelMovieName = wx.StaticText(self.mainInfoScroll, label="Movie Name")
-        self.sizer.Add(self.labelMovieName, pos=(3, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
+        self.sizer.Add(self.labelMovieName, pos=(4, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
         self.movieName = wx.TextCtrl(self.mainInfoScroll, size=(300, -1))
-        self.sizer.Add(self.movieName, pos=(3, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
+        self.sizer.Add(self.movieName, pos=(4, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
         self.labelOriginalTitle = wx.StaticText(self.mainInfoScroll, label="Original Title")
-        self.sizer.Add(self.labelOriginalTitle, pos=(4, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL,
+        self.sizer.Add(self.labelOriginalTitle, pos=(5, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL,
                        border=5)
         self.originalTitle = wx.TextCtrl(self.mainInfoScroll, size=(300, -1))
-        self.sizer.Add(self.originalTitle, pos=(4, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
+        self.sizer.Add(self.originalTitle, pos=(5, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
         self.labelSortTitle = wx.StaticText(self.mainInfoScroll, label="Sort Title")
-        self.sizer.Add(self.labelSortTitle, pos=(5, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL,
+        self.sizer.Add(self.labelSortTitle, pos=(6, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL,
                        border=5)
         self.sortTitle = wx.TextCtrl(self.mainInfoScroll, size=(300, -1))
-        self.sizer.Add(self.sortTitle, pos=(5, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
+        self.sizer.Add(self.sortTitle, pos=(6, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
         self.labelMovieSet = wx.StaticText(self.mainInfoScroll, label="Set")
-        self.sizer.Add(self.labelMovieSet, pos=(6, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL,
+        self.sizer.Add(self.labelMovieSet, pos=(7, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL,
                        border=5)
         self.movieSet = wx.TextCtrl(self.mainInfoScroll, size=(300, -1))
-        self.sizer.Add(self.movieSet, pos=(6, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
+        self.sizer.Add(self.movieSet, pos=(7, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
         self.labelYear = wx.StaticText(self.mainInfoScroll, label="Year")
-        self.sizer.Add(self.labelYear, pos=(7, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
+        self.sizer.Add(self.labelYear, pos=(8, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
         self.movieYear = wx.TextCtrl(self.mainInfoScroll, size=(50, -1))
-        self.sizer.Add(self.movieYear, pos=(7, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
+        self.sizer.Add(self.movieYear, pos=(8, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
         self.labelTop250 = wx.StaticText(self.mainInfoScroll, label="Top 250")
-        self.sizer.Add(self.labelTop250, pos=(8, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL,
+        self.sizer.Add(self.labelTop250, pos=(9, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL,
                        border=5)
         self.Top250 = wx.TextCtrl(self.mainInfoScroll, size=(300, -1))
-        self.sizer.Add(self.Top250, pos=(8, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
+        self.sizer.Add(self.Top250, pos=(9, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
         self.labelTrailer = wx.StaticText(self.mainInfoScroll, label="Trailer")
-        self.sizer.Add(self.labelTrailer, pos=(9, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL,
+        self.sizer.Add(self.labelTrailer, pos=(10, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL,
                        border=5)
         self.Trailer = wx.TextCtrl(self.mainInfoScroll, size=(300, -1))
-        self.sizer.Add(self.Trailer, pos=(9, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
+        self.sizer.Add(self.Trailer, pos=(10, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
         self.labelMovieVotes = wx.StaticText(self.mainInfoScroll, label="Votes")
-        self.sizer.Add(self.labelMovieVotes, pos=(10, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL,
+        self.sizer.Add(self.labelMovieVotes, pos=(11, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL,
                        border=5)
         self.movieVotes = wx.TextCtrl(self.mainInfoScroll, size=(300, -1))
-        self.sizer.Add(self.movieVotes, pos=(10, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
+        self.sizer.Add(self.movieVotes, pos=(11, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
         self.labelMovieRating = wx.StaticText(self.mainInfoScroll, label="Rating")
-        self.sizer.Add(self.labelMovieRating, pos=(11, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL,
+        self.sizer.Add(self.labelMovieRating, pos=(12, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL,
                        border=5)
         self.movieRating = wx.TextCtrl(self.mainInfoScroll, size=(300, -1))
-        self.sizer.Add(self.movieRating, pos=(11, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
+        self.sizer.Add(self.movieRating, pos=(12, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
         self.labelOutline = wx.StaticText(self.mainInfoScroll, label="Outline")
-        self.sizer.Add(self.labelOutline, pos=(12, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL,
+        self.sizer.Add(self.labelOutline, pos=(13, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL,
                        border=5)
         self.Outline = wx.TextCtrl(self.mainInfoScroll, size=(300, -1))
-        self.sizer.Add(self.Outline, pos=(12, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
+        self.sizer.Add(self.Outline, pos=(13, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
         self.labelPlot = wx.StaticText(self.mainInfoScroll, label="Plot")
-        self.sizer.Add(self.labelPlot, pos=(13, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
+        self.sizer.Add(self.labelPlot, pos=(14, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
         self.moviePlot = wx.TextCtrl(self.mainInfoScroll, size=(300, 150), style=wx.TE_MULTILINE)
-        self.sizer.Add(self.moviePlot, pos=(13, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
+        self.sizer.Add(self.moviePlot, pos=(14, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
         self.labelTagLine = wx.StaticText(self.mainInfoScroll, label="Tag Line")
-        self.sizer.Add(self.labelTagLine, pos=(14, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
+        self.sizer.Add(self.labelTagLine, pos=(15, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
         self.tagLine = wx.TextCtrl(self.mainInfoScroll, size=(300, -1))
-        self.sizer.Add(self.tagLine, pos=(14, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
+        self.sizer.Add(self.tagLine, pos=(15, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
         self.labelRunTime = wx.StaticText(self.mainInfoScroll, label="Run Time")
-        self.sizer.Add(self.labelRunTime, pos=(15, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
+        self.sizer.Add(self.labelRunTime, pos=(16, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
         self.runTime = wx.TextCtrl(self.mainInfoScroll, size=(150, -1))
-        self.sizer.Add(self.runTime, pos=(15, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
+        self.sizer.Add(self.runTime, pos=(16, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
         self.labelRealeseDate = wx.StaticText(self.mainInfoScroll, label="Release date")
-        self.sizer.Add(self.labelRealeseDate, pos=(16, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
+        self.sizer.Add(self.labelRealeseDate, pos=(17, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
         self.releaseDate = wx.TextCtrl(self.mainInfoScroll, size=(150, -1))
-        self.sizer.Add(self.releaseDate, pos=(16, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
+        self.sizer.Add(self.releaseDate, pos=(17, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
         self.labelStudio = wx.StaticText(self.mainInfoScroll, label="Studio")
-        self.sizer.Add(self.labelStudio, pos=(17, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
+        self.sizer.Add(self.labelStudio, pos=(18, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
         self.Studio = wx.TextCtrl(self.mainInfoScroll, size=(300, -1))
-        self.sizer.Add(self.Studio, pos=(17, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
+        self.sizer.Add(self.Studio, pos=(18, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
         self.labelThumbs = wx.StaticText(self.mainInfoScroll, label="Thumbs")
-        self.sizer.Add(self.labelThumbs, pos=(18, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
+        self.sizer.Add(self.labelThumbs, pos=(19, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
         self.listThumbs = wx.TextCtrl(self.mainInfoScroll, size=(380, 100), style=wx.TE_MULTILINE)
-        self.sizer.Add(self.listThumbs, pos=(18, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
+        self.sizer.Add(self.listThumbs, pos=(19, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
         self.labelFanart = wx.StaticText(self.mainInfoScroll, label="Fanart")
-        self.sizer.Add(self.labelFanart, pos=(19, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
+        self.sizer.Add(self.labelFanart, pos=(20, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
         self.listFanart = wx.GridBagSizer()
         self.listFanartlist = wx.lib.scrolledpanel.ScrolledPanel(self.mainInfoScroll, -1, size=(380, 100))
         self.listFanartlist.SetupScrolling()
         self.listFanartlist.SetSizer(self.listFanart)
-        self.sizer.Add(self.listFanartlist, pos=(19, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
+        self.sizer.Add(self.listFanartlist, pos=(20, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
         self.labelGenres = wx.StaticText(self.mainInfoScroll, label="Genres")
-        self.sizer.Add(self.labelGenres, pos=(20, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
+        self.sizer.Add(self.labelGenres, pos=(21, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
         self.listGenres = wx.TextCtrl(self.mainInfoScroll, size=(300, 50), style=wx.TE_MULTILINE)
-        self.sizer.Add(self.listGenres, pos=(20, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
+        self.sizer.Add(self.listGenres, pos=(21, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
         self.labelActors = wx.StaticText(self.mainInfoScroll, label="Actors")
-        self.sizer.Add(self.labelActors, pos=(21, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
+        self.sizer.Add(self.labelActors, pos=(22, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
         self.listActors = wx.TextCtrl(self.mainInfoScroll, size=(300, 50), style=wx.TE_MULTILINE)
-        self.sizer.Add(self.listActors, pos=(21, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
+        self.sizer.Add(self.listActors, pos=(22, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
 
         self.btnSaveNFO = wx.Button(self.mainInfoScroll, label="Save NFO")
-        self.sizer.Add(self.btnSaveNFO, pos=(22, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
+        self.sizer.Add(self.btnSaveNFO, pos=(23, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
 
         self.mainInfoScroll.SetSizer(self.sizer)
 
@@ -351,6 +357,7 @@ class MainWindow(wx.Frame):
         self.btnSaveNFO.Bind(wx.EVT_BUTTON, self.saveNFO)
         self.searchBtn.Bind(wx.EVT_BUTTON, self.onOpenSearch)
         self.renameBtn.Bind(wx.EVT_BUTTON, self.doRename)
+        self.posterGet.Bind(wx.EVT_BUTTON, self.getPoster)
 
     def onOpenDirectory(self, e):
         """"""
@@ -481,8 +488,10 @@ class MainWindow(wx.Frame):
             self.listGenres.AppendText(genre + '\n')
         for actor in self.output['actors_names']:
             self.listActors.AppendText(actor + '\n')
-        if self.generateBaseString() != self.selectedFolder[0] + '/' + self.selectedItem:
+        if self.generateBaseString() != self.selectedItem:
+            print(self.selectedFolder[0] + '/' + self.selectedItem)
             self.renameBtn.Enable()
+        self.posterGet.Enable()
 
     def saveNFO(self, event):
         root = et.Element('movie')
@@ -626,8 +635,9 @@ class MainWindow(wx.Frame):
         if root.findall('actor'):
             for actor in root.findall('actor'):
                 self.listActors.AppendText(actor.find('name').text + '\n')
-        if self.generateBaseString() != self.selectedFolder[0] + '/' + self.selectedItem:
+        if self.generateBaseString() != self.selectedItem:
             self.renameBtn.Enable()
+        self.posterGet.Enable()
 
 
     # ----------------------------------------------------------------------
@@ -681,6 +691,8 @@ class MainWindow(wx.Frame):
             file_container = os.path.splitext(file)
             if kink.extensions.count(file_container[1][1:]) or file_container[1] == '.nfo':
                 os.rename(path, ext_path[0] + '/' + base + file_container[1])
+            if file_container[1] == '.jpg' and file_container[0][-7:] == "-poster":
+                os.rename(path, ext_path[0] + '/' + base + "-poster" + file_container[1])
         os.rename(ext_path[0], tgt_path[0] + base)
         self.selectedItem = base
         self.updateDisplay(self.selectedFolder[0])
@@ -730,6 +742,15 @@ class MainWindow(wx.Frame):
         string = string.replace('{ID}', id)
 
         return string
+
+    def getPoster(self, event):
+        url = kink.get_poster(self.movieId.GetValue())
+        fp = urllib.request.urlopen(url)
+        data = fp.read()
+        fp.close()
+        with open(self.selectedFolder[0] + "/" + self.selectedItem + "/" + self.selectedItem + "-poster.jpg", "wb") as code:
+            code.write(data)
+
 
     def onAboutMenu(self, event):
         print('Si?')

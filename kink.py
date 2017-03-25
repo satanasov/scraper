@@ -165,6 +165,13 @@ def generateSearchString(string):
     output = '+'.join(detecetedIds)
     return output
 
+def get_poster(target):
+    print(target)
+    page = requests.get('https://www.kink.com/shoot/' + target)
+    tree = html.fromstring(page.content)
+    poster = tree.xpath('//*[@class="video-player"]/@poster')
+
+    return poster[0].strip()
 
 def month_converter(month):
     month = month.strip()[:3].lower()
