@@ -75,6 +75,41 @@ class OptionsDialog(wx.Dialog):
         config.configWrite()
         self.Destroy()
 
+class AboutDlg(wx.Dialog):
+    def __init__(self):
+        wx.Dialog.__init__(self, None, title="About")
+
+        self.sizer = wx.BoxSizer(wx.VERTICAL)
+        text1 = '''
+        Welcome to KINK.com scraper. 
+        
+        Copyright to Stanislav Atanasov (lucifer@f-bg.com)
+        
+        If you like my product you can buy me a beer.
+        '''
+
+        self.aboutText = wx.StaticText(self, -1, text1, (30, 50))
+        self.sizer.Add(self.aboutText)
+
+        self.sizerPP = wx.BoxSizer(wx.HORIZONTAL)
+        self.ppLabel = wx.StaticText(self, -1, "PayPal   ")
+        self.sizerPP.Add(self.ppLabel)
+        self.ppAddress = wx.TextCtrl(self, style=wx.TE_READONLY|wx.BORDER_NONE)
+        self.ppAddress.SetValue("lucifer@f-bg.org")
+        self.sizerPP.Add(self.ppAddress)
+
+        self.sizerBC = wx.BoxSizer(wx.HORIZONTAL)
+        self.bcLabel = wx.StaticText(self, -1, "BitCoin  ")
+        self.sizerBC.Add(self.bcLabel)
+        self.bcAddress = wx.TextCtrl(self, style=wx.TE_READONLY | wx.BORDER_NONE)
+        self.bcAddress.SetValue("1DJhr9Dt6Z28ubDM317XkGGepHwDBn13xR")
+        self.sizerBC.Add(self.bcAddress)
+
+        self.sizer.Add(self.sizerPP, -1, wx.LEFT, 25)
+        self.sizer.Add(self.sizerBC, -1, wx.LEFT, 25)
+        self.SetSizer(self.sizer)
+
+
 class SearchDlg(wx.Dialog):
     def __init__(self):
         wx.Dialog.__init__(self, None, title="Search")
@@ -755,7 +790,9 @@ class MainWindow(wx.Frame):
 
 
     def onAboutMenu(self, event):
-        print('Si?')
+        dlg = AboutDlg()
+        dlg.ShowModal()
+        dlg.Destroy()
 
 app = wx.App(False)
 frame = MainWindow()
