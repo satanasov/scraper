@@ -200,6 +200,10 @@ class MainWindow(wx.Frame):
         self.Bind(wx.EVT_MENU, self.onExit, exitMenuItem)
 
         menuBar.Append(fileMenu, "&File")
+        helpMenu = wx.Menu()
+        aboutItem = helpMenu.Append(wx.NewId(), "&About", "Show About")
+        self.Bind(wx.EVT_MENU, self.onAboutMenu, aboutItem)
+        menuBar.Append(helpMenu, "&Help")
         self.SetMenuBar(menuBar)
 
         #Window
@@ -727,6 +731,8 @@ class MainWindow(wx.Frame):
 
         return string
 
+    def onAboutMenu(self, event):
+        print('Si?')
 
 app = wx.App(False)
 frame = MainWindow()
