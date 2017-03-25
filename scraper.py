@@ -505,6 +505,8 @@ class MainWindow(wx.Frame):
         set.text = self.movieSet.GetValue()
         year = et.SubElement(root, 'year')
         year.text = self.movieYear.GetValue()
+        mpaa = et.SubElement(root, 'mpaa')
+        mpaa.text = "XXX"
         top250 = et.SubElement(root, 'top250')
         top250.text = self.movieSet.GetValue()
         trailer = et.SubElement(root, 'trailer')
