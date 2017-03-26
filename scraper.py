@@ -703,9 +703,9 @@ class MainWindow(wx.Frame):
         base = os.path.basename(self.selectedItem)
         base = os.path.splitext(base)[0]
         path = self.selectedFolder[0] + "/" + base
-        os.makedirs(path)
-
-        os.rename(self.selectedFolder[0] + "/" + self.selectedItem, path + "/" + selectedItem)
+        if not os.path.isdir(path):
+            os.makedirs(path)
+        os.rename(self.selectedFolder[0] + "/" + self.selectedItem, path + "/" + self.selectedItem)
 
         self.updateDisplay(self.selectedFolder[0])
 

@@ -36,6 +36,7 @@ chanels = {
     'third-party': 'External Production',
     'chantasbitches': 'Chantas Bitches',
     'captivemale': 'Captive male',
+    'kinklive': 'Kink Live',
     'radrotica': ''
 
 }
