@@ -14,8 +14,9 @@ import config
 selectedItem = ''
 detectedIds = []
 
-print(glob.glob(os.path.dirname(__file__)))
-cache_dir = glob.glob(os.path.dirname(__file__))[0]
+print(os.path.dirname(os.path.realpath(__file__)))
+
+cache_dir = os.path.dirname(os.path.realpath(__file__))
 
 cache_dir += '/cache'
 
@@ -261,6 +262,10 @@ class MainWindow(wx.Frame):
         self.sizer.Add(self.labelFileName, pos=(0, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
         self.movieFileName = wx.TextCtrl(self.mainInfoScroll, size=(300, -1))
         self.sizer.Add(self.movieFileName, pos=(0, 1), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
+        self.moveToFolderBtn = wx.Button(self.mainInfoScroll, label="Move to folder")
+        self.sizer.Add(self.moveToFolderBtn, pos=(0, 2), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL,
+                       border=5)
+        self.moveToFolderBtn.Disable()
         self.labelMovieId = wx.StaticText(self.mainInfoScroll, label="Detected Movie ID")
         self.sizer.Add(self.labelMovieId, pos=(1, 0), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, border=5)
         self.movieId = wx.TextCtrl(self.mainInfoScroll, size=(300, -1))
@@ -393,6 +398,7 @@ class MainWindow(wx.Frame):
         self.searchBtn.Bind(wx.EVT_BUTTON, self.onOpenSearch)
         self.renameBtn.Bind(wx.EVT_BUTTON, self.doRename)
         self.posterGet.Bind(wx.EVT_BUTTON, self.getPoster)
+        self.moveToFolderBtn.Bind(wx.EVT_BUTTON, self.moveToFolder)
 
     def onOpenDirectory(self, e):
         """"""
@@ -464,12 +470,7 @@ class MainWindow(wx.Frame):
                     selectedItem = self.selectedItem
                     detectedIds = detectedIds
         else:
-            self.moveToFolderBtn = wx.Button(self.mainInfoScroll, label="Move to folder")
-            self.sizer.Add(self.moveToFolderBtn, pos=(0, 2), flag=wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL,
-                               border=5)
-            self.sizer.Layout()
-            self.sizer.Ref(self)
-            self.moveToFolderBtn.Bind(wx.EVT_BUTTON, self.moveToFolder)
+            self.moveToFolderBtn.Enable()
             detectedIds = kink.detectId(self.selectedItem)
             print(detectedIds)
             if len(detectedIds) > 1 or len(detectedIds) == 0:
