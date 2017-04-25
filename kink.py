@@ -37,6 +37,8 @@ chanels = {
     'chantasbitches': 'Chantas Bitches',
     'captivemale': 'Captive male',
     'kinklive': 'Kink Live',
+    'boundgods': 'Bound Gods',
+    'menonedge': 'Men on Edge',
     'radrotica': ''
 
 }
