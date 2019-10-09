@@ -37,7 +37,7 @@ class OptionsDialog(wx.Dialog):
         sizer.Add(self.base_stringStr, 0, wx.ALL, 5)
         self.base_string = wx.TextCtrl(self, size=(300, -1))
         sizer.Add(self.base_string, 0, wx.ALL, 5)
-        self.base_string.SetLabel(config.config['ALL']['base_string'])
+        self.base_string.SetValue(config.config['ALL']['base_string'])
         '''
             Here we define base string format
             Supported:
@@ -132,7 +132,7 @@ class SearchDlg(wx.Dialog):
         self.sizer.Add(self.radio, 0, wx.ALL, 5)
         self.searchString = wx.TextCtrl(self, size=(300, -1))
         self.sizer.Add(self.searchString, 0, wx.ALL, 5)
-        self.searchString.SetLabel(kink.generateSearchString(selectedItem))
+        self.searchString.SetValue(kink.generateSearchString(selectedItem))
         self.searchBtn = wx.Button(self, label="Search")
         self.sizer.Add(self.searchBtn, 0, wx.ALL, 5)
         self.sizer.Layout()
@@ -227,17 +227,17 @@ class MainWindow(wx.Frame):
 
         menuBar = wx.MenuBar()
         fileMenu = wx.Menu()
-        optionsItem = fileMenu.Append(wx.NewId(), "Options",
+        optionsItem = fileMenu.Append(wx.NewIdRef(), "Options",
                                       "Show an Options Dialog")
         self.Bind(wx.EVT_MENU, self.onOptionsMenu, optionsItem)
 
-        exitMenuItem = fileMenu.Append(wx.NewId(), "Exit",
+        exitMenuItem = fileMenu.Append(wx.NewIdRef(), "Exit",
                                        "Exit the application")
         self.Bind(wx.EVT_MENU, self.onExit, exitMenuItem)
 
         menuBar.Append(fileMenu, "&File")
         helpMenu = wx.Menu()
-        aboutItem = helpMenu.Append(wx.NewId(), "&About", "Show About")
+        aboutItem = helpMenu.Append(wx.NewIdRef(), "&About", "Show About")
         self.Bind(wx.EVT_MENU, self.onAboutMenu, aboutItem)
         menuBar.Append(helpMenu, "&Help")
         self.SetMenuBar(menuBar)
@@ -423,25 +423,25 @@ class MainWindow(wx.Frame):
         #clear up what we have
         self.renameBtn.Disable()
         self.scrapeId = ''
-        self.movieId.SetLabel('')
-        self.movieName.SetLabel('')
-        self.originalTitle.SetLabel('')
-        self.sortTitle.SetLabel('')
-        self.movieSet.SetLabel('')
-        self.movieYear.SetLabel('')
-        self.Top250.SetLabel('')
-        self.Trailer.SetLabel('')
-        self.movieVotes.SetLabel('')
-        self.movieRating.SetLabel('')
-        self.Outline.SetLabel('')
-        self.moviePlot.SetLabel('')
-        self.tagLine.SetLabel('')
-        self.runTime.SetLabel('')
-        self.releaseDate.SetLabel('')
-        self.Studio.SetLabel('')
-        self.listThumbs.SetLabel('')
-        self.listGenres.SetLabel('')
-        self.listActors.SetLabel('')
+        self.movieId.SetValue('')
+        self.movieName.SetValue('')
+        self.originalTitle.SetValue('')
+        self.sortTitle.SetValue('')
+        self.movieSet.SetValue('')
+        self.movieYear.SetValue('')
+        self.Top250.SetValue('')
+        self.Trailer.SetValue('')
+        self.movieVotes.SetValue('')
+        self.movieRating.SetValue('')
+        self.Outline.SetValue('')
+        self.moviePlot.SetValue('')
+        self.tagLine.SetValue('')
+        self.runTime.SetValue('')
+        self.releaseDate.SetValue('')
+        self.Studio.SetValue('')
+        self.listThumbs.SetValue('')
+        self.listGenres.SetValue('')
+        self.listActors.SetValue('')
         cols = self.listFanart.GetCols()
         rows = self.listFanart.GetRows()
         if rows > 0:
@@ -462,33 +462,39 @@ class MainWindow(wx.Frame):
             else:
                 self.nfoPresent.SetLabel('no')
                 detectedIds = kink.detectId(self.selectedItem)
+                print(1)
                 print(detectedIds)
                 if len(detectedIds) == 1:
-                    self.movieId.SetLabel(detectedIds[0])
+                    self.movieId.SetValue(detectedIds[0])
                     self.scrapeId = detectedIds[0]
                 else:
                     selectedItem = self.selectedItem
                     detectedIds = detectedIds
+                    self.movieId.SetValue(detectedIds[0])
         else:
             self.moveToFolderBtn.Enable()
             detectedIds = kink.detectId(self.selectedItem)
-            print(detectedIds)
+            print(2)
+            print(detectedIds[0])
             if len(detectedIds) > 1 or len(detectedIds) == 0:
                 selectedItem = self.selectedItem
                 detectedIds = detectedIds
+            else:
+                self.movieId.SetValue(detectedIds[0])
 
-        self.movieFileName.SetLabel(event.GetText())
+        self.movieFileName.SetValue(event.GetText())
 
     def onScrape(self, e):
         self.scrapeId = self.movieId.GetValue()
         self.output = kink.scrape_movie(self.scrapeId)
+        print(self.output['name'])
         #Let's populate Descriptions fields
-        self.movieName.SetLabel(self.output['name'])
-        self.movieSet.SetLabel(self.output['set'])
-        self.movieYear.SetLabel(self.output['year'])
-        self.moviePlot.SetLabel(self.output['plot'])
-        self.releaseDate.SetLabel(self.output['date'])
-        self.Studio.SetLabel(self.output['studio'])
+        self.movieName.SetValue(self.output['name'])
+        self.movieSet.SetValue(self.output['set'])
+        self.movieYear.SetValue(self.output['year'])
+        self.moviePlot.SetValue(self.output['plot'])
+        self.releaseDate.SetValue(self.output['date'])
+        self.Studio.SetValue(self.output['studio'])
         row = 0
         col = 0
         for thumb in self.output['thumbs']:
@@ -603,35 +609,35 @@ class MainWindow(wx.Frame):
         tree = et.parse(path)
         root = tree.getroot()
         if root.find('title').text:
-            self.movieName.SetLabel(root.find('title').text)
+            self.movieName.SetValue(root.find('title').text)
         if root.find('originaltitle').text:
-            self.originalTitle.SetLabel(root.find('originaltitle').text)
+            self.originalTitle.SetValue(root.find('originaltitle').text)
         if root.find('sorttitle').text:
-            self.sortTitle.SetLabel(root.find('sorttitle').text)
+            self.sortTitle.SetValue(root.find('sorttitle').text)
         if root.find('set').text:
-            self.movieSet.SetLabel(root.find('set').text)
+            self.movieSet.SetValue(root.find('set').text)
         if root.find('year').text:
-            self.movieYear.SetLabel(root.find('year').text)
+            self.movieYear.SetValue(root.find('year').text)
         if root.find('top250').text:
-            self.Top250.SetLabel(root.find('top250').text)
+            self.Top250.SetValue(root.find('top250').text)
         if root.find('trailer').text:
-            self.Trailer.SetLabel(root.find('trailer').text)
+            self.Trailer.SetValue(root.find('trailer').text)
         if root.find('votes').text:
-            self.movieVotes.SetLabel(root.find('votes').text)
+            self.movieVotes.SetValue(root.find('votes').text)
         if root.find('rating').text:
-            self.movieRating.SetLabel(root.find('rating').text)
+            self.movieRating.SetValue(root.find('rating').text)
         if root.find('outline').text:
-            self.Outline.SetLabel(root.find('outline').text)
+            self.Outline.SetValue(root.find('outline').text)
         if root.find('plot').text:
-            self.moviePlot.SetLabel(root.find('plot').text)
+            self.moviePlot.SetValue(root.find('plot').text)
         if root.find('tagline').text:
-            self.tagLine.SetLabel(root.find('tagline').text)
+            self.tagLine.SetValue(root.find('tagline').text)
         if root.find('runtime').text:
-            self.runTime.SetLabel(root.find('runtime').text)
+            self.runTime.SetValue(root.find('runtime').text)
         if root.find('releasedate').text:
-            self.releaseDate.SetLabel(root.find('releasedate').text)
+            self.releaseDate.SetValue(root.find('releasedate').text)
         if root.find('studio').text:
-            self.Studio.SetLabel(root.find('studio').text)
+            self.Studio.SetValue(root.find('studio').text)
         if root.findall('thumb'):
             row = 0
             col = 0
@@ -665,7 +671,7 @@ class MainWindow(wx.Frame):
                         col = 0
                         row += 1
         if root.find('id').text:
-            self.movieId.SetLabel(root.find('id').text)
+            self.movieId.SetValue(root.find('id').text)
             self.scrapeId = root.find('id').text
         if root.findall('genre'):
             for genre in root.findall('genre'):
@@ -697,7 +703,7 @@ class MainWindow(wx.Frame):
         dlg.ShowModal()
         seleceted = dlg.selected
         dlg.Destroy()
-        self.movieId.SetLabel(seleceted)
+        self.movieId.SetValue(seleceted)
         self.scrapeId = seleceted
 
     def moveToFolder(self, event):

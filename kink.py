@@ -75,20 +75,20 @@ def scrape_movie(target):
     page = requests.get('https://www.kink.com/shoot/' + target)
     tree = html.fromstring(page.content)
 
-    name = tree.xpath('/html/body/div[2]/div[1]/div[1]/div[4]/div[3]/h1/text()')
-    plot = tree.xpath('/html/body/div[2]/div[1]/div[1]/div[4]/div[3]/div[3]/text()')
-    date = tree.xpath('/html/body/div[2]/div[1]/div[1]/div[4]/div[3]/div[1]/div[1]/p[1]/text()')
+    name = tree.xpath('//h1[@class="shoot-title"]/text()')
+    plot = tree.xpath('//div[@class="description"]/text()')
+    plot = plot[3]
+    date = tree.xpath('//div[@class="shoot-info"]/div[1]/div[1]/p[1]/text()')
     genres = {'BDSM'}
     studio = 'KINK'
     thumbs = tree.xpath('//*[@id="previewImages"]/div[@class="thumb"]/a/img/@src')
     actors_names = tree.xpath('/html/body/div[2]/div[1]/div[1]/div[4]/div[3]/div[1]/div[1]/p[2]/span/a/text()')
     actors_links = tree.xpath('/html/body/div[2]/div[1]/div[1]/div[4]/div[3]/div[1]/div[1]/p[2]/span/a/@href')
 
-    channel = tree.xpath('/html/body/div[2]/div[1]/div[1]/div[4]/div[1]/div[1]/a/@href')
+    channel = tree.xpath('//div[@class="column shoot-logo"]/a/@href')
     channel = channel[0].split('/')
     channel = channel[2]
     channel = chanels[channel]
-    print(channel)
 
     date = date[0].split(',')
     year = date[1].strip()
@@ -102,7 +102,7 @@ def scrape_movie(target):
     output = {'name': name[0].strip(),
               'set': channel,
               'year': year,
-              'plot': plot[0].strip(),
+              'plot': plot,
               'date': year + '-' + month + '-' + day,
               'genres': genres,
               'studio': studio,
@@ -110,7 +110,7 @@ def scrape_movie(target):
               'actors_names': actors_names,
               'actors_links': actors_links
               }
-
+    print(output)
     return output
 
 
@@ -172,9 +172,9 @@ def get_poster(target):
     print(target)
     page = requests.get('https://www.kink.com/shoot/' + target)
     tree = html.fromstring(page.content)
-    poster = tree.xpath('//*[@class="video-player"]/@poster')
-
-    return poster[0].strip()
+    poster = tree.xpath('//div[@class="player"]/@poster')
+    print(poster)
+    return poster[0]
 
 def month_converter(month):
     month = month.strip()[:3].lower()
