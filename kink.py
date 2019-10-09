@@ -71,6 +71,11 @@ def search(term):
 
 
 def scrape_movie(target):
+    # TODO:
+    # Scrape rating
+    # Scape Votes
+    # Scrape trailer
+    # Find runing time
     print('https://www.kink.com/shoot/' + target)
     page = requests.get('https://www.kink.com/shoot/' + target)
     tree = html.fromstring(page.content)
@@ -82,6 +87,8 @@ def scrape_movie(target):
     genres = {'BDSM'}
     studio = 'KINK'
     thumbs = tree.xpath('//*[@id="previewImages"]/div[@class="thumb"]/a/img/@src')
+    # TODO:
+    # Actors not parsed correctly
     actors_names = tree.xpath('/html/body/div[2]/div[1]/div[1]/div[4]/div[3]/div[1]/div[1]/p[2]/span/a/text()')
     actors_links = tree.xpath('/html/body/div[2]/div[1]/div[1]/div[4]/div[3]/div[1]/div[1]/p[2]/span/a/@href')
 
@@ -169,6 +176,8 @@ def generateSearchString(string):
     return output
 
 def get_poster(target):
+    # TODO:
+    # Poster still broken
     print(target)
     page = requests.get('https://www.kink.com/shoot/' + target)
     tree = html.fromstring(page.content)
