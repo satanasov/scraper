@@ -16,3 +16,9 @@ The application allows the files to be moved in separate directory with the same
 
 ## Run
 python scraper.py
+
+## Requires
+The following Python libraries are required to work:
+1. lxml
+2. requests
+3. wxPython

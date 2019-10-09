@@ -202,7 +202,8 @@ class SearchDlg(wx.Dialog):
         button = event.GetEventObject()
         self.selected = button.GetLabel()
 
-
+# TODO:
+# Start in last opened directory
 class MainWindow(wx.Frame):
     def __init__(self):
         wx.Frame.__init__(self, None, wx.ID_ANY, "Scraper")
