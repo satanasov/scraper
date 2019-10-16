@@ -1,3 +1,5 @@
+# TODO:
+# Split thumb to new thread
 import glob
 import os
 import webbrowser
